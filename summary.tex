@@ -1,0 +1,271 @@
+%\documentclass{nitocs}
+\documentclass[summary]{nitocs}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{latexsym}
+% 
+\def\Underline{\setbox0\hbox\bgroup\let\\\endUnderline}
+\def\endUnderline{\vphantom{y}\egroup\smash{\underline{\box0}}\\}
+\def\|{\verb|}
+
+
+
+\setcounter{page}{1}
+\begin{document}
+
+\title{情報工学科卒業研究抄録 \LaTeX  見本}
+\author{情報 太郎}{Taro Joho }
+\advisor{高専 次郎}{Jiro Kosen}
+
+\date{平成27年12月1日}
+
+\begin{keyword}
+情報工学科，抄録発表，\LaTeX，スタイルファイル，
+\end{keyword}
+
+
+\maketitle
+ \section{卒業研究抄録のフォーマット指針}
+ \label{sec:format}
+
+以下，卒業研究抄録用スタイルファイルを用いた抄録フォーマットの指針について述べるので，
+これに従って原稿を用意頂きたい．\LaTeX を用いた一般的な文章作成技術については，\cite{okumura, companion} 等を参考にされたい．
+
+%4
+\section{抄録の構成}
+\label{config}
+
+抄録の\LaTeX ソースコードの基本的な構成が次のようになる．
+
+\noindent
+\|\documentclass[summary]{nitocs}|．
+\|\begin{document}|\\
+\|\title{表題(和文)}|\\
+\|\author{情報 太郎}{Joho Taro}|\\
+\|\advisor{処理 花子}{Shori Hanako}|\\
+\|\date{平成27年12月1日}|\\
+\|\begin{jkeyword}|\\
+\|<キーワード1>，<キーワド2>，…|\\
+\|\end{jkeyword}|\\
+\|\maketitle|\\
+\|\section{|第1節の表題\|}|\\
+\dots\dots\dots\dots\dots\\
+\quad \|<本文>|\\
+\dots\dots\dots\dots\dots\\
+\|\begin{thebibliography}{99}%9 or 99|\\
+\|\bibitem{1}|\\
+\|\bibitem{2}|\\
+\|\end{thebibliography}|\\\\
+\noindent
+\|\end{document}|
+
+
+
+\section{本文}
+\subsection{見出し}
+
+節や小節の見出しには \|\section|, \|\subsection|, \|\subsubsection|,
+\|\paragraph| といったコマンドを使用する．
+
+\subsection{行送り}
+
+2段組を採用しており，左右の段で行の基準線の位置が一致することを原則とし
+ている．また，節見出しなど，行の間隔を他よりたくさんとった方が読みやすい
+場所では，この原則を守るようにスタイルファイルが自動的にスペースを挿入す
+る．したがって本文中では \|\vspace| や \|\vskip| を用いたスペースの調整
+を行なわないようにすること．
+
+
+\subsection{句読点}
+
+句点には全角の「．」，読点には全角の「，」を用いる．ただし英文中や数式中
+で「.」や「,」を使う場合には，半角文字を使う．「。」や「、」は使わない．
+
+%4.3.5
+\subsection{全角文字と半角文字}
+
+全角文字と半角文字の両方にある文字は次のように使い分ける．
+
+\begin{enumerate}
+\item 括弧は全角の「（」と「）」を用いる．但し，英文の概要，図表見出し，
+書誌データでは半角の「(」と「)」を用いる．
+
+\item 英数字，空白，記号類は半角文字を用いる．ただし，句読点に関しては，
+前項で述べたような例外がある．
+
+\item カタカナは全角文字を用いる．
+
+\item 引用符では開きと閉じを区別する．
+開きには \|``| を用い，閉じには\|''| を用いる．
+\end{enumerate}
+
+
+\subsection{箇条書}
+
+箇条書に関する形式を特に定めていない．場合に応じて標準的な \|enumerate|,
+\|itemize|, \|description| の環境を用いてよい．
+
+\section{数式}\label{sec:Item}
+
+
+\subsection{本文中の数式}
+
+本文中の数式は \|$| と \|$|, \|\(| と \|\)|, あるいは \|math| 環境のいず
+れで囲んでもよい．
+
+
+\subsection{別組の数式}
+
+別組数式(displayed math)については \|$$| と \|$$| は使用せずに，\|\[| と 
+\|\]| で囲むか，\|displaymath|, \|equation|, \|eqnarray| のいずれかの環
+境を用いる．これらは
+%
+\begin{equation}
+\Delta_l = \sum_{i=l|1}^L\delta_{pi}
+\end{equation}
+%
+のように，センタリングではなく固定字下げで数式を出力し，かつ背が高い数式
+による行送りの乱れを吸収する機能がある．
+
+
+\subsection{eqnarray環境}
+
+互いに関連する別組の数式が2行以上連続して現れる場合には，単に\|\[| と 
+\|\]|，あるいは \|\begin{equation}| と\|\end{equation}| で囲った数式を書
+き並べるのではなく，\|\begin|\allowbreak\|{eqnarray}| と 
+\|\end{eqnarray}| を使って，等号（あるいは不等号）の位置で縦揃えを行なっ
+た方が読みやすい．
+\begin{figure}[tb]
+\setbox0\vbox{
+\hbox{\|\begin{figure}[tb]|}
+\hbox{\quad \|<|図本体の指定\|>|}
+\hbox{\|\caption{<|和文見出し\|>}|}
+%\hbox{\|\ecaption{<|英文見出し\|>}|}
+\hbox{\|\label{| $\ldots$ \|}|}
+\hbox{\|\end{figure}|}
+}
+\centerline{\fbox{\box0}}
+\caption{1段幅の図}
+%\ecaption{Single column figure with caption\\
+%explicitly broken by $\backslash\backslash$.}
+\label{fig:single}
+\end{figure}
+
+\section{図}
+
+1段の幅におさまる図は，\figref{fig:single} の形式で指定する．位置の指定
+に \|h| は使わない．また，図の下に和文の見出しを，
+\|\caption| で指定する．文字数が多い見出しはは自動的に改
+行して最大幅の行を基準にセンタリングするが，見出しが2行になる場合には適
+宜 \|\\| を挿入して改行したほうが良い結果となることがしばしばある
+（\figref{fig:single} の英文見出しを参照）．図の参照は \|\figref{<|ラベ
+ル\|>}| を用いて行なう．
+
+
+図の中身では本文と違い，どのような大きさのフォントを使用しても構わない．
+また図の中身として，encapsulate された
+PostScriptファイル（いわゆるEPSファイル）を読み込むこともできる．読み込
+みのためには，プリアンブルで
+%
+\begin{quote}
+\|\usepackage{graphicx}|
+\end{quote}
+%
+を行った上で，\|\includegraphics| コマンドを図を埋め込む箇所に置き，その
+引数にファイル名（など）を指定する．
+
+%4.6
+\section{表}
+
+表の罫線はなるべく少なくするのが，仕上がりをすっきりさせるコツである．罫
+線をつける場合には，一番上の罫線には二重線を使い，左右の端には縦の罫線を
+つけない （\tabref{tab:example}）．表中のフォントサイズのデフォルトは
+\|\footnotesize|である．
+
+また，表の上に和文の見出しを， \|\caption| で
+指定する．表の参照は \|\tabref{<|ラベル\|>}| を用いて行なう．
+
+\begin{table}[tb] 
+\caption{表の例} 
+%\ecaption{An Example of Table.}
+\label{tab:example}
+\hbox to\hsize{\hfil
+\begin{tabular}{l|lll}\hline\hline
+& column1 & column2 & column3 \\\hline
+row1 &	item 1,1 & item 2,1 & ---\\
+row2 &	---      & item 2,2 & item 3,2 \\
+row3 &	item 1,3 & item 2,3 & item 3,3 \\
+row4 &	item 1,4 & item 2,4 & item 3,4 \\\hline
+\end{tabular}\hfil}
+\end{table}
+
+
+\section{参考文献}
+
+本文中で参考文献を参照する場合には%，%参考文献番号が文中の単語として使われ
+%る場合と，そうでない参照とでは，使用する文字の大きさが異なる．前者は
+%\|\Cite|により参照し，後者は
+%\|\cite|により参照する．たとえば；
+\|\cite|を使用する．参照されたラベルは自動的にソートされ，
+\|[]|でそれぞれ区切られる．
+%
+\begin{quote}
+文献 \|\cite{companion,okumura}| は \LaTeX の総合的な解説書である．
+\end{quote}
+%
+と書くと；
+%
+\begin{quote}
+文献\cite{companion,okumura}は \LaTeX の総合的な解説書である．
+\end{quote}
+%
+が得られる．
+
+
+
+
+\begin{thebibliography}{10}
+
+\bibitem{latex}
+Lamport, L.: {\em A Document Preparation System \LaTeX User's Guide \&
+ Reference Manual}, Addison Wesley, Reading, Massachusetts (1986).
+（Cooke, E., et al.訳：文書処理システム \LaTeX，アスキー出版局
+ (1990)）.
+
+\bibitem{total}
+伊藤和人： \LaTeX トータルガイド，秀和システムトレーディング (1991).
+\bibitem{nodera}
+野寺隆志：楽々 \LaTeX，共立出版 (1990).
+
+\bibitem{okumura}
+奥村晴彦：改訂第5版 \LaTeXe 美文書作成入門，
+技術評論社(2010).
+
+\bibitem{companion}
+Goossens, M., Mittelbach, F. and Samarin, A.:
+{\it The LaTeX Companion},
+Addison Wesley, Reading, Massachusetts (1993).
+
+\bibitem{book1}
+木下是雄：
+理科系の作文技術，
+中公新書(1981).
+
+\bibitem{book2}
+Strunk W. J. and White E.B.:
+{\it The Elements of Style, Forth Edition},
+Longman (2000).
+
+\bibitem{book3}
+Blake G. and Bly R.W.:
+{\it The Elements of Technical Writing},
+Longman (1993).
+
+\bibitem{book4}
+Higham N.J.:
+{\it Handbook of Writing for the Mathematical Sciences},
+SIAM (1998).
+
+\end{thebibliography}
+
+\end{document}
