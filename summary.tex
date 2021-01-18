@@ -113,13 +113,9 @@
                     \right)
                     \label{Homography}
                 \end{equation}
-                あるいは，これをベクトルと行列の記号を用いて，以下のように表現することもできる．
-                \begin{equation} % 射影変換のベクトル数式
-                    \bm{\vec{x}'} \sim \bm{H\vec{x}}
-                \end{equation}
-                $\bm{H}$は任意の$3\times3$の行列である．これを変換行列という．
 
                 射影変換においては，線分の直線性は保たれるものの，平行性は失われる．別の言い方をすると，任意の四角形を別の任意の四角形に移すような変換であるといえる．
+                    %? 「概略図」？　なんかパッとしない表現
                 射影変換の概略図を図\ref{sample_homography}に示す．
                 \begin{figure}[tb] % 射影変換の概略図
                     \begin{center}
@@ -130,8 +126,16 @@
                 \end{figure}
 
 %4
-    \section{盤面識別システム} \label{system}
-        しすてむについて
+    \section{システム内容} \label{system}
+        システムは，与えられた画像に対して，以下の前処理を行う．
+        \begin{itemize}
+            \item 射影変換（盤面部分の切り抜き）
+            \item グレースケール化
+            \item ノイズ処理
+        \end{itemize}
+        前処理が完了した画像に対して，システムは$19\times19$個の小さな領域を付与する．
+        この領域内に存在する画素値の平均と，設定したしきい値をもとに，システムは各領域の位置に置かれている石の種類の識別を行う．
+            %TODO 必要であれば領域付与済みの図を入れる
 
     \section{実験} \label{experiment}
         じっけん
