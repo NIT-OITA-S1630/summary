@@ -116,18 +116,18 @@
 
                 射影変換においては，線分の直線性は保たれるものの，平行性は失われる．別の言い方をすると，任意の四角形を別の任意の四角形に移すような変換であるといえる．
                     %? 「概略図」？　なんかパッとしない表現
-                射影変換の概略図を図\ref{sample_homography}に示す．
-                \begin{figure}[tb] % 射影変換の概略図
+                    %! 「模式図」にした
+                射影変換の模式図を図\ref{sample_homography}に示す．
+                \begin{figure}[tb] % 射影変換の模式図
                     \begin{center}
                     \includegraphics[clip,width=80mm]{Homography.jpg} 
-                    \caption{射影変換の概略図}
+                    \caption{射影変換の模式図}
                     \label{sample_homography}
                     \end{center}
                 \end{figure}
 
-%4
     \section{システム内容} \label{system}
-        システムは，与えられた画像に対して，以下の前処理を行う．
+        システムは，与えられた画像に対して以下の前処理を行う．
         \begin{itemize}
             \item 射影変換（盤面部分の切り抜き）
             \item グレースケール化
@@ -139,6 +139,91 @@
 
     \section{実験} \label{experiment}
         システムの有効性を検証するため，実際に盤面を含む画像を使ってシステムを適用し結果を考察する．
+        \subsection{事例2} % 位置ズレによる失敗．DSC_0099．
+            この盤面画像（図\ref{ex2}）に対し，システムを適用した．
+            識別結果に誤りがあった部分にマークを付け，その周囲をトリミングしたものを図\ref{ex2_error}に示す．
+
+            図\ref{noiseReduced}と同様に，輝度値の平均を取得する領域を可視化すると，中央の石の大部分が領域からはみ出ているのが分かる．
+            このことから，石が正しく盤面の交点上に配置されていない場合，システムは正常に石を識別できないと考える．
+            図\ref{ex2_error}の範囲に対し，領域を可視化した図を図\ref{ex2_error_area}に示す．
+            
+            \begin{figure}[tb] % 事例2_盤面
+                \begin{center}
+                \includegraphics[clip,width=80mm]{DSC_0099/boardImg.jpg} 
+                \caption{事例2の盤面}
+                \label{ex2}
+                \end{center}
+            \end{figure}
+
+            % \begin{figure}[tb] % 事例2_エラー部分の拡大
+            %     \begin{center}
+            %     \includegraphics[clip,width=80mm]{DSC_0099/TRIM_resultCompare.jpg} 
+            %     \caption{事例2の誤り部分}
+            %     \label{ex2_error}
+            %     \end{center}
+            % \end{figure}
+
+            % \begin{figure}[tb] % 事例2_エラー部分の拡大
+            %     \begin{center}
+            %     \includegraphics[clip,width=80mm]{DSC_0099/TRIM_boardWithAreaImg.jpg} 
+            %     \caption{誤り部分の領域を可視化した図}
+            %     \label{ex2_error_area}
+            %     \end{center}
+            % \end{figure}
+            \begin{figure}[tb] % 平均化フィルタ，メディアンフィルタの2枚
+                \begin{center}
+                  \begin{tabular}{c}
+                    \begin{minipage}{0.5\hsize}
+                      \begin{center}
+                        \includegraphics[clip,width=40mm]{DSC_0099/TRIM_resultCompare.jpg}
+                    \caption{事例2の誤り部分}
+                    \label{ex2_error}
+                      \end{center}
+                    \end{minipage}
+                    \begin{minipage}{0.5\hsize}
+                      \begin{center}
+                        \includegraphics[clip,width=40mm]{DSC_0099/TRIM_boardWithAreaImg.jpg}
+                    \caption{誤り部分の領域を可視化した図}
+                    \label{ex2_error_area}
+                      \end{center}
+                    \end{minipage}
+                  \end{tabular}
+                \end{center}
+            \end{figure}
+
+
+        \subsection{事例3} % 反射による失敗．DSC_0098．
+            この盤面画像（図\ref{ex3}）に対し，システムを適用した．
+            識別結果に誤りがあった部分にマークを付け，その一部をトリミングしたものを図\ref{ex3_error}に示す．
+
+            図\ref{ex3_error}の範囲に対し，白石の識別に用いた閾値よりも暗い部分を0，明るい部分を1としてinRange()関数で二値画像を生成すると，白石が無い部分も白石があるとみなしていることが分かる．
+            このことから，盤面や黒石に反射光が含まれていると，システムは誤って白石と識別してしまうと考える．
+            \begin{figure}[tb] % 事例3_盤面
+                \begin{center}
+                \includegraphics[clip,width=80mm]{DSC_0098/boardImg.jpg} 
+                \caption{事例3の盤面}
+                \label{ex3}
+                \end{center}
+            \end{figure}
+
+            \begin{figure}[tb] % 事例3_エラー部分の拡大
+                \begin{center}
+                \includegraphics[clip,width=80mm]{DSC_0098/TRIM_resultCompare.jpg} 
+                \caption{誤り部分の一部}
+                \label{ex3_error}
+                \end{center}
+            \end{figure}
+
+                %TODO: inRange()で，白のしきい値が拾った部分の二値画像を作る
+            \begin{figure}[tb] % 事例3_エラー部分の拡大
+                \begin{center}
+                \includegraphics[clip,width=80mm]{DSC_0098/TRIM_inRange_WHITE.jpg} 
+                \caption{誤り部分をしきい値で二値化}
+                \label{ex3_error_area}
+                \end{center}
+            \end{figure}
+
+
 
     \section{結言}\label{conclusion}
         けつげん
