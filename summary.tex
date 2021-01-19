@@ -45,7 +45,6 @@
 
             % 研究について
         本研究では，対局中の囲碁の画像から碁石の配置を識別するシステムの検討を行う．
-        具体的には，盤面を含む画像から射影変換を用いて盤面を切り抜き，ノイズ処理を適用した後に，輝度値をもとに碁石の配置を識別するシステムの構築を行う．
         その後，複数の画像に対してシステムを試し，結果を考察する．
 
     \section{理論} \label{theory}
@@ -117,16 +116,44 @@
             %     \end{center}
             % \end{figure}
 
+        \subsection{メディアンフィルタ}
+            フィルタ範囲内のピクセルの画素値を昇順か降順に並び替え，中央値を出力するフィルタをメディアンフィルタと呼ぶ\cite{DIP}．
+            このフィルタは，コントラストの差がある輪郭部分がぼやけにくい特徴を持つ．
+
+
     \section{システム内容} \label{system}
         システムは，与えられた画像に対して以下の前処理を行う．
         \begin{itemize}
             \item 射影変換（盤面部分の切り抜き）
             \item グレースケール化
-            \item ノイズ除去
+            \item ノイズ除去（格子線の除去）
         \end{itemize}
         前処理が完了した画像に対して，システムは$19\times19$個の小さな領域を付与する．
         この領域内に存在する画素値の平均と，設定したしきい値をもとに，システムは各領域の位置に置かれている石の種類の識別を行う．
-        前処理におけるノイズ除去にはメディアンフィルタを使用する．
+        前処理におけるノイズ除去にはメディアンフィルタを使用する．これは，輪郭部分がぼやけにくい特徴から，碁石の色がノイズ除去によって滲むことを防ぐためである．
+        碁石のある碁盤に，フィルタ範囲内の画素値の平均を出力するフィルタ（平均値フィルタ）とメディアンフィルタを適用した例をそれぞれ図\ref{average}，図\ref{median}に示す．
+        \begin{figure}[tb] % 事例2，誤り部分・領域可視化版の2枚セット
+            \begin{center}
+              \begin{tabular}{c}
+                \begin{minipage}{0.5\hsize}
+                  \begin{center}
+                    \includegraphics[clip,width=30mm]{blur_result.jpg}
+                \caption{平均値フィルタ}
+                \label{average}
+                  \end{center}
+                \end{minipage}
+                \begin{minipage}{0.5\hsize}
+                  \begin{center}
+                    \includegraphics[clip,width=30mm]{median_result.jpg}
+                \caption{メディアンフィルタ}
+                \label{median}
+                  \end{center}
+                \end{minipage}
+              \end{tabular}
+            \end{center}
+        \end{figure}
+
+
         % 理由は？　
             %TODO 必要であれば領域付与済みの図を入れる
 
@@ -144,7 +171,7 @@
             
             \begin{figure}[tb] % 事例2_盤面
                 \begin{center}
-                \includegraphics[clip,width=60mm]{DSC_0099/boardImg.jpg} 
+                \includegraphics[clip,width=50mm]{DSC_0099/boardImg.jpg} 
                 \caption{\ref{ex2}節で使用した盤面画像}
                 \label{ex2_img}
                 \end{center}
@@ -158,7 +185,7 @@
                     \begin{minipage}{0.5\hsize}
                       \begin{center}
                         \includegraphics[clip,width=30mm]{DSC_0099/TRIM_resultCompare.jpg}
-                    \caption{事例2の誤り部分}
+                    \caption{図\ref{ex2_img}の誤り部分}
                     \label{ex2_error}
                       \end{center}
                     \end{minipage}
@@ -184,9 +211,9 @@
             このことから，盤面や黒石に反射光が含まれていると，システムは誤って白石と識別してしまうと考える．
             \begin{figure}[tb] % 事例3_盤面
                 \begin{center}
-                \includegraphics[clip,width=60mm]{DSC_0098/boardImg.jpg} 
+                \includegraphics[clip,width=50mm]{DSC_0098/boardImg.jpg} 
                 \caption{\ref{reflection}節で使用した盤面画像}
-                \label{ex3}
+                \label{ex3_img}
                 \end{center}
             \end{figure}
 
@@ -196,7 +223,7 @@
                     \begin{minipage}{0.5\hsize}
                       \begin{center}
                         \includegraphics[clip,width=30mm]{DSC_0098/TRIM_resultCompare.jpg}
-                    \caption{誤り部分の一部}
+                    \caption{図\ref{ex3_img}の誤り部分}
                     \label{ex3_error}
                       \end{center}
                     \end{minipage}
@@ -215,13 +242,10 @@
 
 
     \section{結言}\label{conclusion} % 結言
-        本研究では，囲碁の盤面を含んだ画像から碁石の配置を識別することを目的として，画像上から碁石の配置を識別するシステムの検討を行い，数件の画像に対してシステムを適用して有効性を確認した．
-
         \ref{experiment}章より，本研究で検討したシステムでは石の位置に大きなずれが無い，かつ反射光が写り込んでいない場合に限り，碁石を正常に識別することができた．
-        石のずれに対応できない問題には，画像に付与する領域（碁石座標）の位置を等間隔ではなく，碁盤の交点や石の形状をもとに検出することでこれを解決できると考える．
+        石のずれに対応できない問題には，画像に付与する領域（碁石座標）の位置を等間隔に付与するのではなく，碁盤の交点や石の形状をもとに検出することでこれを解決できると考える．
         反射光を白石と識別していまう問題には，しきい値を固定するのではなく，画像の状況に応じて最適なしきい値を算出することや，画像上の反射光の写り込みを軽減させる画像処理で，誤った識別をする数を減らすことができると考える．
-
-        したがって，今後の課題として
+        よって，今後の課題として
         \begin{itemize}
             \item 石の座標を検出する手法
             \item 画像の状況に応じて適切なしきい値を算出する手法
