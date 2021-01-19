@@ -30,27 +30,22 @@
     \author{橋本 燎}{Ryo Hashimoto} % 氏名
     \advisor{井上 優良}{Yusuke Inoue}   % 指導教員氏名
 
-    %! 実行時の日付が自動挿入されるはず
+    % 実行時の日付が自動挿入されるはず
     \date{令和3年\number\month 月\number\day 日} 
 
     \maketitle
     \section{緒言} \label{intro}
+            % 囲碁について
         囲碁は，2人のプレイヤーが碁石を碁盤へ配置するボードゲームである．碁石は各プレイヤーが使用する白黒の石であり，碁盤は通常$19\times19$の格子状の盤面のことを指す．
-        %! ルール説明とかで文章を増やそう
         このゲームは両プレイヤーが碁石を交互に碁盤上に設置し，碁石で囲まれた陣地を多く確保したプレイヤーが勝利する．
         相手の陣地として成立している領域でなければどこにでも碁石を置くことができる，相手プレイヤーの碁石を陣地内に収めることでその碁石を奪い使用することで相手陣地の縮小を行うことができる等，
-        ルール上の制約が極めて少ないといった特徴を持つため，他のボードゲームと比較すると可能な総局面数は膨大になる．
-        % 2016年には$19\times19$の盤面における総局面数の正確な値が計算され，約$2.081681994 \times 10^{170}$通りということが明らかにされた\cite{numbers}．
-        % これはオセロや将棋の総局面数を超え，観測可能な宇宙に存在する原子の総数（約$4\times10^{79}$個）よりも遥かに大きな値である．
-        
-        近年では，2015年にGoogle DeepMind社が開発した，ディープラーニングを実装した囲碁プログラム{\it AlphaGo}\cite{AlphaGo}が初めてプロ棋士に対しハンデ無しの対局で勝利した．
-        コンピュータが人間に打ち勝つのは難しいとされていた分野で勝利を果たしたことは，人工知能の有用性を広く知らしめるものとなった．
-        以降にも様々な人工知能が登場しプロ棋士との対局が行われてきたが，これらの対局の様子を見ると，プロ棋士の置いた石の配置をコンピュータに入力する役割を持った人間が存在していた．
+        ルール上の制約が極めて少ないといった特徴を持つため，他のボードゲームと比較すると可能な総局面数は膨大になる．        
+        近年，様々な人工知能が登場しプロ棋士との対局が行われてきたが，これらの対局の様子を見ると，プロ棋士の置いた石の配置をコンピュータに入力する役割を持った人間が存在していた．
         そこで，人の手による記録作業を行わずに対局の状況を記録できるシステムの構築を目指す．
 
+            % 研究について
         本研究では，対局中の囲碁の画像から碁石の配置を識別するシステムの検討を行う．
-        % 段落変更対策
-        具体的には，盤面を含む画像から射影変換を用いて盤面を切り抜き，ノイズ処理を適用して盤面上の線を曖昧なものにした後に，輝度値をもとに碁石の配置を識別するシステムの構築を行う．
+        具体的には，盤面を含む画像から射影変換を用いて盤面を切り抜き，ノイズ処理を適用した後に，輝度値をもとに碁石の配置を識別するシステムの構築を行う．
         その後，複数の画像に対してシステムを試し，結果を考察する．
 
     \section{理論} \label{theory}
@@ -129,6 +124,7 @@
             \item グレースケール化
             \item ノイズ処理
         \end{itemize}
+        ノイズ処理にはメディアンフィルタを使用する．
         前処理が完了した画像に対して，システムは$19\times19$個の小さな領域を付与する．
         この領域内に存在する画素値の平均と，設定したしきい値をもとに，システムは各領域の位置に置かれている石の種類の識別を行う．
             %TODO 必要であれば領域付与済みの図を入れる
@@ -160,14 +156,14 @@
                   \begin{tabular}{c}
                     \begin{minipage}{0.5\hsize}
                       \begin{center}
-                        \includegraphics[clip,width=40mm]{DSC_0099/TRIM_resultCompare.jpg}
+                        \includegraphics[clip,width=30mm]{DSC_0099/TRIM_resultCompare.jpg}
                     \caption{事例2の誤り部分}
                     \label{ex2_error}
                       \end{center}
                     \end{minipage}
                     \begin{minipage}{0.5\hsize}
                       \begin{center}
-                        \includegraphics[clip,width=40mm]{DSC_0099/TRIM_boardWithAreaImg.jpg}
+                        \includegraphics[clip,width=30mm]{DSC_0099/TRIM_boardWithAreaImg.jpg}
                     \caption{誤り部分の領域を可視化}
                     \label{ex2_error_area}
                       \end{center}
@@ -198,14 +194,14 @@
                   \begin{tabular}{c}
                     \begin{minipage}{0.5\hsize}
                       \begin{center}
-                        \includegraphics[clip,width=40mm]{DSC_0098/TRIM_resultCompare.jpg}
+                        \includegraphics[clip,width=30mm]{DSC_0098/TRIM_resultCompare.jpg}
                     \caption{誤り部分の一部}
                     \label{ex3_error}
                       \end{center}
                     \end{minipage}
                     \begin{minipage}{0.5\hsize}
                       \begin{center}
-                        \includegraphics[clip,width=40mm]{DSC_0098/TRIM_inRange_WHITE.jpg}
+                        \includegraphics[clip,width=30mm]{DSC_0098/TRIM_inRange_WHITE.jpg}
                     \caption{誤り部分の二値化}
                     \label{ex3_error_area}
                       \end{center}
