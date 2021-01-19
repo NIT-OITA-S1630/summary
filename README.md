@@ -37,6 +37,7 @@ ${newArgs[@]}
         "name":"ptex2pdf",
         "command": "wsl.exe",
         "args": [
+            "/mnt/c/latex-tools.sh",
             "ptex2pdf",
             "-l",
             "-ot",
