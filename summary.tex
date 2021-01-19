@@ -54,77 +54,73 @@
         その後，複数の画像に対してシステムを試し，結果を考察する．
 
     \section{理論} \label{theory}
-        \subsection{変換}
-            \subsubsection{同次座標}
-                座標$(x,y)$に対し，その要素を1つ増やした座標$(\xi_1,\xi_2,\xi_3)$を，以下の関係式を満たすように定義する．\\
-                \begin{equation} % 同次座標の数式
-                    \begin{split} % 複数行に1つの式番号を与える
-                        x = \frac{\xi_1}{\xi_3} \\ 
-                        y = \frac{\xi_2}{\xi_3}
-                    \end{split}
-                    \label{Homogeneous}
-                \end{equation}
+        \subsection{同次座標}
+            座標$(x,y)$に対し，その要素を1つ増やした座標$(\xi_1,\xi_2,\xi_3)$を，以下の関係式を満たすように定義する．\\
+            \begin{equation} % 同次座標の数式
+                    x = \frac{\xi_1}{\xi_3}, \;\;\;\;\;\;\;\; y = \frac{\xi_2}{\xi_3}
+                \label{Homogeneous}
+            \end{equation}
 
-                ただし，$\xi_1,\xi_2,\xi_3$のうち少なくとも1つは0ではないとする．このように定義される座標を同次座標と呼ぶ\cite{DIP}．
+            ただし，$\xi_1,\xi_2,\xi_3$のうち少なくとも1つは0ではないとする．このように定義される座標を同次座標と呼ぶ\cite{DIP}．
 
-                同次座標においては$\lambda\neq0$なる任意の$\lambda$に対して，$(\xi_1,\xi_2,\xi_3)$と$(\lambda\xi_1,\lambda\xi_2,\lambda\xi_3)$は通常の座標に直したときともに$(\xi_1/\xi_3,\xi_2/\xi_3)$となるため，同じ点を表している．つまり，同次座標による表現では，定数倍をしても変わらないとみなすことができる．このような表現を同値であるとよび，これを式では以下のように表す．
-                \begin{equation} % 同次座標の数式2
-                    \left(
-                        \begin{array}{ccc}
-                            \xi_1\\
-                            \xi_2\\
-                            \xi_3
-                        \end{array}
-                    \right) \sim % \sim: 「～」
-                    \left(
-                        \begin{array}{ccc}
-                            \lambda\xi_1\\
-                            \lambda\xi_2\\
-                            \lambda\xi_3
-                        \end{array}
-                    \right)
-                \end{equation}
-                ここで記号$\sim$は同値関係を表し，定数倍の違いを許して等しいことを意味する．
+            同次座標においては$\lambda\neq0$なる任意の$\lambda$に対して，$(\xi_1,\xi_2,\xi_3)$と$(\lambda\xi_1,\lambda\xi_2,\lambda\xi_3)$は通常の座標に直したときともに$(\xi_1/\xi_3,\xi_2/\xi_3)$となるため，同じ点を表している．つまり，同次座標による表現では，定数倍をしても変わらないとみなすことができる．このような表現を同値であるとよび，これを式では以下のように表す．
+            \begin{equation} % 同次座標の数式2
+                \left(
+                    \begin{array}{ccc}
+                        \xi_1\\
+                        \xi_2\\
+                        \xi_3
+                    \end{array}
+                \right) \sim % \sim: 「～」
+                \left(
+                    \begin{array}{ccc}
+                        \lambda\xi_1\\
+                        \lambda\xi_2\\
+                        \lambda\xi_3
+                    \end{array}
+                \right)
+            \end{equation}
+            ここで記号$\sim$は同値関係を表し，定数倍の違いを許して等しいことを意味する．
 
-            \subsubsection{射影変換}
-                同次座標を利用することにより，一般的な変換を表現することができる．
-                これは以下の式で表現されるもので，射影変換と呼ばれている\cite{DIP}．
-                \begin{equation} % 射影変換の数式
-                    \left(
-                        \begin{array}{ccc}
-                        x'\\
-                        y'\\
-                        1
-                        \end{array}
-                    \right)\sim
-                    \left(
-                        \begin{array}{ccc}
-                        h_{11} & h_{12} & h_{13}\\
-                        h_{21} & h_{22} & h_{23}\\
-                        h_{31} & h_{32} & h_{33}\\
-                        \end{array}
-                    \right)
-                    \left(
-                        \begin{array}{ccc}
-                        x\\
-                        y\\
-                        1
-                        \end{array}
-                    \right)
-                    \label{Homography}
-                \end{equation}
+        \subsection{射影変換}
+            同次座標を利用することにより，一般的な変換を表現することができる．
+            これは以下の式で表現されるもので，射影変換と呼ばれている\cite{DIP}．
+            \begin{equation} % 射影変換の数式
+                \left(
+                    \begin{array}{ccc}
+                    x'\\
+                    y'\\
+                    1
+                    \end{array}
+                \right)\sim
+                \left(
+                    \begin{array}{ccc}
+                    h_{11} & h_{12} & h_{13}\\
+                    h_{21} & h_{22} & h_{23}\\
+                    h_{31} & h_{32} & h_{33}\\
+                    \end{array}
+                \right)
+                \left(
+                    \begin{array}{ccc}
+                    x\\
+                    y\\
+                    1
+                    \end{array}
+                \right)
+                \label{Homography}
+            \end{equation}
 
-                射影変換においては，線分の直線性は保たれるものの，平行性は失われる．別の言い方をすると，任意の四角形を別の任意の四角形に移すような変換であるといえる．
-                    %? 「概略図」？　なんかパッとしない表現
-                    %! 「模式図」にした
-                射影変換の模式図を図\ref{sample_homography}に示す．
-                \begin{figure}[tb] % 射影変換の模式図
-                    \begin{center}
-                    \includegraphics[clip,width=80mm]{Homography.jpg} 
-                    \caption{射影変換の模式図}
-                    \label{sample_homography}
-                    \end{center}
-                \end{figure}
+            射影変換においては，線分の直線性は保たれるものの，平行性は失われる．別の言い方をすると，任意の四角形を別の任意の四角形に移すような変換であるといえる．
+                %! 模式図を入れる余裕がないかもしれない
+            %     %? 「概略図」？　なんかパッとしない表現 -> 「模式図」にしてみた
+            % 射影変換の模式図を図\ref{sample_homography}に示す．
+            % \begin{figure}[tb] % 射影変換の模式図
+            %     \begin{center}
+            %     \includegraphics[clip,width=80mm]{Homography.jpg} 
+            %     \caption{射影変換の模式図}
+            %     \label{sample_homography}
+            %     \end{center}
+            % \end{figure}
 
     \section{システム内容} \label{system}
         システムは，与えられた画像に対して以下の前処理を行う．
